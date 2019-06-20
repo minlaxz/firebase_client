@@ -1,0 +1,348 @@
+//foo_ base64('RGV2ZWxvcGVkIGJ5IE1pbiBMYXR0') _bar//
+var query = firebase.database().ref("project/student").orderByKey();
+
+const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
+const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Tursday", "Friday", "Saturday"]
+
+var d = new Date();                         //object
+var yearx = d.getFullYear();                // 2019
+var monthx = d.getMonth();                  //5 -> June
+
+var i;                                      ////global looper
+var globalDataHolder = [];              ////global data holder
+var globalOnDayHolder = [];
+var globalOnDayHolder_sliced = [];
+var globalOffDayHolder = [];
+
+var rollKeys = [];
+
+var present_indexes = [];
+var txt = new String;
+
+var att = [];
+
+var ulNames = document.getElementById('ul_names');
+var ulButtons = document.getElementById("ul_buttons");
+
+var ulOffDays = document.getElementById("ul_offDays");
+var ulOnDays = document.getElementById("ul_onDays");
+
+var modal_table_data = document.getElementById("modal_table_data");
+var modal_table_header = document.getElementById("modal_table_header");
+var modal = document.getElementById("myModal");
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+query.once("value").then(createButtonAndAttribute); ////__init__
+
+function createButtonAndAttribute(items_object) {
+    rollKeys = Object.keys(items_object.val())
+    //var val0 = Object.values(items_object.val()) ////CHECK
+    //console.log(val0)       ////CHECK
+    //console.log(rollKeys);       /*LOG roll numbers*/
+    var userCount = rollKeys.length;   ////object_length , if 2 users -> output 3
+    console.log("total user: " + userCount)
+    items_object.forEach(createButtonAndList);
+    for (i = 1; i <= userCount; i++) {
+        globalDataHolder[i - 1] = items_object.val()[rollKeys[i - 1]]
+        document.getElementsByTagName("button")[i].setAttribute("onClick", "clickedID(this.id,this.firstChild.nodeValue)");
+        document.getElementsByTagName("button")[i].setAttribute("id", rollKeys[i - 1]);
+    } //console.log(data_objects_holder) ////CHECK
+    //console.log(globalOnDayHolder)         ////CHECK
+
+    var templooper = 0;
+    for (i = 0; i < globalOnDayHolder.length; i += 5) {
+        if (globalOnDayHolder[i + 4] !== undefined) {
+            var temp = globalOnDayHolder[i] + '-' + globalOnDayHolder[i + 4]
+            create_on_days(temp, templooper)
+            ////CHECK console.log(temp)
+            ////CHECK console.log('templooper - '+templooper)
+            ////CHECK console.log(globalOnDayHolder[i], globalOnDayHolder[i + 4])
+            templooper++
+        } else {
+            ////CHECK console.log('templooper - ' + templooper)
+            ////CEHCK console.log(globalOnDayHolder[i])
+            create_on_days(globalOnDayHolder[i], templooper)
+        }
+    }
+}
+
+function create_on_days(temp, templooper) {
+    var p = document.createElement('p');
+    var linkText = document.createTextNode(temp)
+    p.appendChild(linkText);
+    p.setAttribute("id", "data_" + templooper)
+    document.getElementById(templooper).appendChild(p)
+}
+
+function createButtonAndList(item_object) {
+    //item.key >> (roll) 1 by 1
+    var btn = document.createElement('button');
+    btn.className += "btn btn-outline-primary btn-block";
+    var linkText = document.createTextNode(item_object.val().name);
+    btn.style.margin = "10px 0px";
+    btn.appendChild(linkText);
+    buttonGroup.appendChild(btn);
+    var li = document.createElement('li');
+    li.className += "list-group-item btn-outline-success";
+    var linkText = document.createTextNode(item_object.key);
+    li.appendChild(linkText);
+    ulNames.appendChild(li);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+function daysInMonth(month, year) {
+    return new Date(year, month + 1, 0).getDate(); //month+1 is important -> June is 6
+}
+
+function isWeekday(year, month, day) {
+    var day = new Date(year, month, day).getDay();
+    return day != 0 && day != 6;
+}
+
+function getWeekdaysInMonth(month, year) {
+    var days = daysInMonth(month, year);
+    ////CHECK console.log("total days : " + days + " - " + monthNames[monthx] + " " + yearx) 
+    var oncount = 0;
+    var offcount = 0;
+    var weekDays = new String;
+    var SatAndSun = new String;
+    var br_hr = 1;
+    for (var i = 1; i <= days; i++) {
+        if (isWeekday(year, month, i)) {
+            globalOnDayHolder[oncount] = i;
+            oncount++;
+            if (br_hr <= 4) {
+                weekDays += dayNames[new Date(year, month, i).getDay()] + '-' + i + '<br>';
+                br_hr++;
+            } else {
+                weekDays += dayNames[new Date(year, month, i).getDay()] + '-' + i + '<hr>';
+                br_hr = 1;
+            }
+
+
+        } else {
+            globalOffDayHolder[offcount] = i;
+            offcount++;
+            SatAndSun += dayNames[new Date(year, month, i).getDay()] + '-' + i + '<br>';
+        }
+    } //globalOnDayHolder = [3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 17, 18, 19, 20, 21, 24, 25, 26, 27, 28, 29]
+    var slicer = globalOnDayHolder.length / 5; //if days is 21 => slicer is 4.2
+    var rounded = Math.round(slicer)    //now slicer = 4 will get error for 0.2 day , last one day if 4.5 rounded will be 5
+    if (slicer - rounded < 0.5 && slicer - rounded != 0) {
+        rounded++
+    }
+    console.log('slicer- ' + slicer)        ////CHECK
+    console.log('rounded- ' + rounded)      ////CHECK
+    var x = 0; var y = 5;
+    for (i = 0; i < rounded; i++) {
+        globalOnDayHolder_sliced[i] = globalOnDayHolder.slice(x, y)
+        x += 5; y += 5;
+    }
+    var on_off = [];
+    on_off[0] = SatAndSun;
+    on_off[1] = weekDays;
+    return on_off;
+}
+
+
+function findPresent(dataVal, dataKey) {
+    keyword = 'Present'
+    present_indexes = [];           ////Clear index records
+    for (i = 0; i < dataVal.length; i++) {
+        if (dataVal[i] == keyword) {
+            present_indexes.push(dataKey[i]);
+        } else {
+            console.log('Absent ' + dataKey[i] + ' finding present.')
+        }
+    }
+
+}
+
+function clickedID(id, name) {
+    document.getElementById('table').hidden = false;
+    document.getElementById('close').hidden = false;
+    var currentUser = document.getElementById("currentUser")
+    var currentUserInfo = document.getElementById('currentUserInfo')
+    currentUser.innerHTML = name + ' - ' + id
+
+    console.log(id)     ////CHECK
+    var clickedData = globalDataHolder[rollKeys.indexOf(id)].attendance[monthNames[monthx]]
+    var dataVal = Object.values(clickedData)
+    var dataKey = Object.keys(clickedData)
+
+    findPresent(dataVal, dataKey);
+
+    console.log('Present - ' + present_indexes)
+    //if (val.attendance.June) {                 ////same with val.attendance['June']
+    //    console.log(val.attendance.June)       ////CHECK 
+    //}
+    var keyLength = dataVal.length;
+    console.log('keylength - ' + keyLength)
+    txt = "";               ////clear modal text;
+    for (i = 0; i < keyLength; i++) {  //if keylenght is 9 loop around 1 to 8 , 0 place is empty
+
+        txt += i + ' : ' + dataVal[i] + ' <br /> ';
+    }
+    console.log(txt);       ////CHECK
+    currentUserInfo.innerHTML = present_indexes
+    document.getElementById('detail').innerHTML = txt
+
+    document.getElementById('name').innerHTML = name;
+    document.getElementById('roll').innerHTML = id;
+    document.getElementById('no').innerHTML = rollKeys.indexOf(id) + 1 + '.';
+    var setme = present_indexes.length;
+    var tempholder = 0;
+    do {
+        setme -= 5;
+        tempholder++;
+    } while (setme > 5);
+
+    if (tempholder > 0) {  //length 9 -> 1and4
+        for (i = 0; i < tempholder; i++) {
+            var txt = present_indexes.slice(i, i + 5) + '<br>';
+        }
+        if (setme > 0) {
+            txt += present_indexes.slice(5 * tempholder, 5 * tempholder + setme);
+        }
+
+    } else {
+        txt = present_indexes;
+    }
+
+    //9 -> 1,4
+    //10 -> 2,0
+    //11 -> 2,1
+    //21 -> 4,1
+
+    console.log(tempholder, setme)
+
+    document.getElementById('dates').innerHTML = txt;
+
+}
+function global_closer(id) {
+    id.hidden = true;
+}
+function closer() {
+    document.getElementById('table').hidden = true;
+    document.getElementById('close').hidden = true;
+}
+function clickedUser(username) { //TODO match globalOnDayHolder and globalOffDayHolder
+    query.once("value").then(function (snapshot) {
+        snapshot.forEach(function (childsnapshot) {
+            if (childsnapshot.val().name == username) {
+                console.log(username)
+                var attendance = childsnapshot.val().attendance['June']; // << month
+                var keyLength = Object.keys(attendance).length;
+
+                console.log('keylength - ' + keyLength)
+
+                //var arr = [];
+                //arr[0] = Object.keys(attendance)[0] + ' ' + Object.values(attendance)[0]
+                //arr[1] = Object.keys(attendance)[1] + ' ' + Object.values(attendance)[1]
+                //alert(arr[0] +  '\n' + arr[1])
+
+                txt = "";               ////clear modal text;
+
+                //var daysorter = [1, 2, 4, 3, 0]; //Monday ...
+
+                for (i = 0; i < keyLength; i++) {
+                    //txt += Object.keys(attendance)[daysorter[i]] + ' : ' + Object.values(attendance)[daysorter[i]] + ' <br /> ';
+                    //arr[i] = Object.keys(attendance)[daysorter[i]] + ' : ' + Object.values(attendance)[daysorter[i]] + ' \n ';
+                    txt += Object.keys(attendance)[i] + ' : ' + Object.values(attendance)[i] + ' <br /> ';
+
+
+                }
+                console.log(txt);       ////CHECK
+                make_modal_show(txt, username);
+            }
+        })
+    }).catch(function (e) {
+        console.log(e);         ////CHECK
+        modalmaker(e.message, username);
+    })
+}
+
+function make_modal_show(txt, username) {
+    modal_table_data.innerHTML = txt;
+    modal_table_header.className += 'text-center text-danger';
+    modal_table_header.textContent = 'Student-' + username + ' ' + monthNames[monthx] // << month
+    modal.style.display = "block";
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+}
+
+window.onload = function () {
+    if (!navigator.onLine) {
+        console.log('Offline')
+        ulOffDays.innerHTML = 'Browser Offline'
+        ulOnDays.innerHTML = '-- Check Internet Connection.'
+    } else {
+        console.log('Online')
+        var temp = getWeekdaysInMonth(monthx, yearx);
+        ulOffDays.innerHTML = "University off dates for '" + monthNames[monthx] + "' ::<br><br>" + temp[0];
+        ulOnDays.innerHTML = "University dates for '" + monthNames[monthx] + "' ::<br><br>" + temp[1];
+    }
+};
+
+
+/*          TESTED CODE //
+if(splitter < 5){
+                globalOnDayHolder[j][oncount] = i;
+                oncount++;
+                splitter++;
+            }else{
+                splitter = 0;
+                j++;
+            }
+function time() {
+    document.getElementById('time').innerHTML = d.toLocaleTimeString();
+}
+var call = setInterval(time, 1000);
+var myJSON = JSON.stringify(attendance);
+alert(myJSON)
+for (var i in attendance) {
+createRow(i, attendance[i]);
+    dataAlert = { i: attendance }
+ }
+ alert(dataAlert)
+var objects = {};
+for (var x = 0; x < 100; x++) {
+  objects[x] = {name: etc};
+}
+*/
+
+//server "AAAA2xz4m8E:APA91bE1yj9mIZgSd12sclR5W_Q9TUwCZm3YuPiCXA_N4cECzgNZToTsVkpgZQYo8zIeXbWKXqD34u62GQFsZ7pKfepEecyzR11G8giyCeqc-6JXd6d6FdTOteDmFvbxC7Q5xraEvi-B"
+//sender "941083892673"
+
+//document.body.appendChild(ul);
+
+/*///////////////////////////////////////////////////////
+var day = document.getElementById('nav-home')          // DEPRECATED !!
+var tableDay = document.createElement('table');        //
+tableDay.style.width = '100%';                         //
+tableDay.style.border = '2px solid grey';              //
+day.appendChild(tableDay);                             //
+createRow('Date', 'P/A')                               //
+function createRow(date, PorA) {                       //
+    var tr = tableDay.insertRow();
+    tr.className += "rounded"
+    createCell(date, tr);
+    createCell(PorA, tr);
+}
+function createCell(forWhat, tr) {
+    var td = tr.insertCell();
+    var txt = document.createTextNode(forWhat)
+    td.appendChild(txt);
+    //txt.parentNode.removeChild(txt);
+    td.style.border = '2px solid black';               //
+    td.setAttribute('rowSpan', '1');                   //
+    td.className += "text-center small";               //
+}                                                      //
+*///////////////////////////////////////////////////////}
