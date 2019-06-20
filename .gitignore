@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+.firebase/
+database.rules.json
+firebase.json
+
