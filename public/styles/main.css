@@ -1,0 +1,176 @@
+@charset "utf-8";
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    margin: 5px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #e9ecefff;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+}
+
+.text-name, .text-phone {
+    color: #E916B3;
+}
+
+input.name {
+    border: 1px solid lightblue;
+}
+
+input.phone {
+    border: 1px solid lightblue;
+}
+
+.repasswd {
+    border: 1px solid lightcoral;
+}
+
+.footer {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.firelogo {
+    position: relative;
+}
+
+.head {
+    margin: 5px 0;
+}
+
+.name:focus, .phone:focus, .repasswd:focus, .passwd:focus, .email:focus {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: 2px solid lightgoldenrodyellow;
+}
+
+.email {
+    margin: 5px 0 5px 0;
+    border: 2px solid lightblue;
+}
+
+input.passwd {
+    margin: 5px 0 5px 0;
+    border: 2px solid lightblue;
+}
+
+.laxz-border {
+    border: 2px solid lightgoldenrodyellow;
+}
+
+a.forgot_a {
+    margin: 50px 0;
+    text-align: center;
+}
+
+.laxz-head-shadow {
+    font-family: 'Open Sans', sans-serif;
+    text-shadow: 4px 4px 4px #aaa;
+    font-size: 38px;
+}
+
+.laxz-foot-shadow {
+    font-family: 'Open Sans', sans-serif;
+    text-shadow: 4px 4px 4px #aaa;
+    font-size: 18px;
+}
+
+.dot {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+p.card-text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12.5px;
+}
+
+.card-header {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    padding: 10px;
+}
+
+.card-footer {
+    padding: 2px 10px 2px 10px;
+}
+
+.laxz-jumbotron {
+    background-color: #e9ecefff;
+}
+
+.card-body {
+    background-color: #e9ecefff;
+}
+
+.laxz-col {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+.btn-block-xs-only {
+    display: block;
+    width: 100%;
+}
+
+.btn-block {
+    display: block;
+    width: 100%
+}
+
+.btn-block+.btn-block {
+    margin-top: .5rem
+}
+
+input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].btn-block {
+    width: 100%;
+}
+
+/******************** Animate ****************/
+
+.animated-body {
+    animation-duration: 1s;
+    animation-delay: 1s;
+    animation-iteration-count: 1;
+}
+
+.animated-one {
+    animation-duration: 2s;
+    animation-delay: 1s;
+}
+
+.animated-two {
+    animation-duration: 2s;
+    animation-delay: 1s;
+}
+
+.animated-four {
+    animation-duration: 1s;
+    animation-delay: 1.3s;
+}
+
+.animated-five {
+    animation-duration: 1s;
+    animation-delay: 1.6s;
+}
+
+.animated-six {
+    animation-duration: 1s;
+    animation-delay: 3s;
+}
+
+.animated-dot {
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+}
+
+.wide{
+    padding: 20px;
+}
