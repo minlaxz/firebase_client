@@ -61,7 +61,7 @@
         }
     </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
 
@@ -79,13 +79,11 @@
 
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-                aria-controls="nav-home" aria-selected="true">Attendance</a>
+            aria-controls="nav-home" aria-selected="true">Attendance</a>
             <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
-                aria-controls="nav-contact" aria-selected="false">Total</a>
+            aria-controls="nav-contact" aria-selected="false">Total</a>
         </div>
     </nav>
-
-    <p id="time"></p>
 
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
@@ -118,93 +116,110 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr  class="table-default">
                         <th scope="row" id="no"></th>
-                        <td id="name"></td>
+                        <td id="name" class="text-danger"></td>
                         <td id="roll"></td>
-                        <td id="dates"></td>
-                    </tr>
-                </tbody>
-            </table>
+                        <td>
+                            <table class="table table-bordered table-ligth">
+                                <!--<thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Dates</th>
+                                        <th scope="col">AM</th>
+                                        <th scope="col">PM</th>
+                                    </tr>
+                                </thead>-->
 
-            <div class="container text-dark rounded card-footer" hidden>
+                                <tbody id="maketable">
+<!-- Table goes here...-->
 
-                <p id="currentUser">
-                </p>
-                <p id="currentUserInfo">
-                </p>
-                <p id="detail">
-                </p>
+                                    </tbody>
 
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                    <tbody>
+                        <tr  class="table-default">
+                            <th scope="row" id="de">Detail</th>
+                            <td id="userPH">09454888696</td>
+                            <td id="userLast">2019-July-18</td>
+                            <td id="dates" class="text-info"></td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+
+
+
+                <div class="row container" hidden>
+                    <div class="col">
+                        <!--on_day_holder_sliced[0]-->
+                        <ul class="list-group list-group-flush rounded text-info text-center" id="0">
+
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul class="list-group list-group-flush rounded text-info text-center" id="1">
+
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul class="list-group list-group-flush rounded text-info text-center" id="2">
+
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul class="list-group list-group-flush rounded text-info text-center" id="3">
+
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul class="list-group list-group-flush rounded text-info text-center" id="4">
+
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="row container">
+                    <!--On and Off days-->
+                    <div class="col" id="offDays">
+                        <ul class="list-group list-group-flush rounded text-secondary" id="ul_offDays">
+                        </ul>
+                    </div>
+                    <div class="col" id="onDays">
+                        <ul class="list-group list-group-flush rounded text-info" id="ul_onDays">
+                        </ul>
+                    </div>
+                </div>
             </div>
-
-
-            <div class="row container" hidden>
-                <div class="col">
-                    <!--on_day_holder_sliced[0]-->
-                    <ul class="list-group list-group-flush rounded text-info text-center" id="0">
-
-                    </ul>
-                </div>
-                <div class="col">
-                    <ul class="list-group list-group-flush rounded text-info text-center" id="1">
-
-                    </ul>
-                </div>
-                <div class="col">
-                    <ul class="list-group list-group-flush rounded text-info text-center" id="2">
-
-                    </ul>
-                </div>
-                <div class="col">
-                    <ul class="list-group list-group-flush rounded text-info text-center" id="3">
-
-                    </ul>
-                </div>
-                <div class="col">
-                    <ul class="list-group list-group-flush rounded text-info text-center" id="4">
-
-                    </ul>
-                </div>
-
-            </div>
-
-            <div class="row container">
-                <!--On and Off days-->
-                <div class="col" id="offDays">
-                    <ul class="list-group list-group-flush rounded text-secondary" id="ul_offDays">
-                    </ul>
-                </div>
-                <div class="col" id="onDays">
-                    <ul class="list-group list-group-flush rounded text-info" id="ul_onDays">
-                    </ul>
-                </div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <p></p>
             </div>
         </div>
-        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-            <p></p>
-        </div>
-    </div>
 
 
-    <nav class="navbar sticky-bottom navbar-dark bg-light text-center">
-        <p class="laxz-col"> This site is dynamically load.
-            Maybe a little bit slow
-            but loading is in realtime.
-        </p>
-    </nav>
+        <nav class="navbar sticky-bottom navbar-dark bg-light text-center">
+            <p class="laxz-col"> This site is dynamically load.
+                Maybe a little bit slow
+                but loading is in realtime.
+            </p>
+        </nav>
 
-    <script src="req/final.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        <script src="req/final.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-</body>
+    </body>
 
-</html>
+    </html>
