@@ -37,10 +37,9 @@ var flag;
 
 query.once("value").then(createAttributes); 
 
+
 function createAttributes(items_object) {
     rollKeys = Object.keys(items_object.val())
-    //var val0 = Object.values(items_object.val()) ////CHECK
-    //console.log(val0)       ////CHECK
     //console.log(rollKeys);       /*LOG roll numbers*/
     var userCount = rollKeys.length;   ////object_length , if 2 users -> output 3
     console.log("total user: " + userCount)
@@ -80,6 +79,7 @@ function createButtonAndList(item_object) {
     var li = document.createElement('li');
     li.className += "list-group-item btn-outline-warning";
     var linkText = document.createTextNode(item_object.key);
+    li.style.margin = "5px 0px"
     li.appendChild(linkText);
     ulNames.appendChild(li);
 }
@@ -93,7 +93,7 @@ function create_on_days(temp, templooper) {
     // Deprecated
 }
 
-
+checkDatabase()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -200,7 +200,11 @@ function clickedID(id, name) {
     //21 -> 4,1
     //console.log(tempholder, setme)
 
-    document.getElementById('dates').innerHTML = txt;
+    //document.getElementById('dates').innerHTML = txt;
+
+    document.getElementById('userPH').innerHTML = globalDataHolder[rollKeys.indexOf(id)].phone
+    document.getElementById('userFirstRegister').innerHTML = globalDataHolder[rollKeys.indexOf(id)].register_date_short
+    document.getElementById('userLastScan').innerHTML = globalDataHolder[rollKeys.indexOf(id)].updated_date 
 
 }
 
@@ -315,6 +319,39 @@ function getWeekdaysInMonth(month, year) {
     on_off[1] = weekDays;
     return on_off;
 }
+
+function checkDatabase() {
+        var nn = 0
+        query.on("value", function (snapshot) {
+            console.log(snapshot.val())
+            if (nn > 0) {
+                document.getElementById('rf').hidden = false;
+                document.getElementById('rf_detail').hidden = false;
+            }
+            else {
+                document.getElementById('rf_detail').hidden = true;
+                document.getElementById('rf').hidden = true;
+            }
+            nn++;  // DONT FUCKING MISS THIS //
+        });
+        document.getElementById('rf').addEventListener('click', refreshThis, false);
+    }
+
+function refreshThis() {
+    location.reload();
+}
+
+/*
+query.on('value', function(snapshot) {
+    if(snapshot){
+        document.getElementById('rf').hidden = false;
+    }else{
+        document.getElementById('rf').hidden = true;
+    }
+        
+  
+});
+*/
 
 window.onload = function () {
     if (!navigator.onLine) {

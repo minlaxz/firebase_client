@@ -73,9 +73,16 @@
 </head>
 
 <body>
-    <nav class="navbar sticky-top navbar-light bg-light">
+    <nav class="navbar sticky-top navbar-light bg-secondary">
         <a class="nav-brand" id='heading_laxz'>Students' Attendance</a>
-        <button id='rf' class="btn btn-outline-info btn-sm" hidden>Refresh</button>
+        <!--<button id='rf' class="btn btn-outline-info btn-sm" onclick="refresher()" style="margin: 5px;" hidden>Refresh</button> -->
+        <pre class="text-center text-secondary" id="rf_detail" hidden="">
+            This is returned from server , -
+            database changes was triggered in
+            realtime and need to be refreshed.
+            <button id='rf' class="btn btn-info btn-sm" style="margin: 5px;" hidden>Refresh</button>
+        </pre>
+        
 
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
@@ -132,7 +139,7 @@
 
                                 <tbody id="maketable">
 <!-- Table goes here...-->
-
+    
                                     </tbody>
 
                                 </table>
@@ -143,11 +150,9 @@
                     <tbody>
                         <tr  class="table-default">
                             <th scope="row" id="de">Detail</th>
-                            <td id="userPH">09454888696</td>
-                            <td id="userLast">2019-July-18</td>
-                            <td id="dates" class="text-info"></td>
-
-
+                            <td id="userPH"></td>
+                            <td id="userFirstRegister"></td>
+                            <td id="userLastScan" class="text-info"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -203,9 +208,8 @@
 
 
         <nav class="navbar sticky-bottom navbar-dark bg-light text-center">
-            <p class="laxz-col"> This site is dynamically load.
-                Maybe a little bit slow
-                but loading is in realtime.
+            <p class="text-center">
+                This site is dynamically load.Maybe a little bit slow but loading is in realtime.
             </p>
         </nav>
 
