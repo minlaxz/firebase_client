@@ -129,101 +129,106 @@
                         <td id="roll"></td>
                         <td>
                             <table class="table table-bordered table-ligth">
-                                <!--<thead class="thead-light">
-                                    <tr>
-                                        <th scope="col">Dates</th>
-                                        <th scope="col">AM</th>
-                                        <th scope="col">PM</th>
-                                    </tr>
-                                </thead>-->
 
                                 <tbody id="maketable">
-<!-- Table goes here...-->
-    
-                                    </tbody>
+                                    <!-- Table goes here...-->
 
-                                </table>
-                            </td>
-                        </tr>
-                    </tbody>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
 
-                    <tbody>
-                        <tr  class="table-default">
-                            <th scope="row" id="de">Detail</th>
-                            <td id="userPH"></td>
-                            <td id="userFirstRegister"></td>
-                            <td id="userLastScan" class="text-info"></td>
-                        </tr>
-                    </tbody>
-                </table>
-
+                <tbody>
+                    <tr  class="table-default">
+                        <th scope="row" id="de">Detail</th>
+                        <td id="userPH"></td>
+                        <td id="userFirstRegister"></td>
+                        <td id="userLastScan" class="text-info"></td>
+                    </tr>
+                </tbody>
+            </table>
 
 
-                <div class="row container" hidden>
-                    <div class="col">
-                        <!--on_day_holder_sliced[0]-->
-                        <ul class="list-group list-group-flush rounded text-info text-center" id="0">
 
-                        </ul>
-                    </div>
-                    <div class="col">
-                        <ul class="list-group list-group-flush rounded text-info text-center" id="1">
+            <div class="row container" hidden>
+                <div class="col">
+                    <!--on_day_holder_sliced[0]-->
+                    <ul class="list-group list-group-flush rounded text-info text-center" id="0">
 
-                        </ul>
-                    </div>
-                    <div class="col">
-                        <ul class="list-group list-group-flush rounded text-info text-center" id="2">
-
-                        </ul>
-                    </div>
-                    <div class="col">
-                        <ul class="list-group list-group-flush rounded text-info text-center" id="3">
-
-                        </ul>
-                    </div>
-                    <div class="col">
-                        <ul class="list-group list-group-flush rounded text-info text-center" id="4">
-
-                        </ul>
-                    </div>
-
+                    </ul>
                 </div>
+                <div class="col">
+                    <ul class="list-group list-group-flush rounded text-info text-center" id="1">
 
-                <div class="row container">
-                    <!--On and Off days-->
-                    <div class="col" id="offDays">
-                        <ul class="list-group list-group-flush rounded text-secondary" id="ul_offDays">
-                        </ul>
-                    </div>
-                    <div class="col" id="onDays">
-                        <ul class="list-group list-group-flush rounded text-info" id="ul_onDays">
-                        </ul>
-                    </div>
+                    </ul>
+                </div>
+                <div class="col">
+                    <ul class="list-group list-group-flush rounded text-info text-center" id="2">
+
+                    </ul>
+                </div>
+                <div class="col">
+                    <ul class="list-group list-group-flush rounded text-info text-center" id="3">
+
+                    </ul>
+                </div>
+                <div class="col">
+                    <ul class="list-group list-group-flush rounded text-info text-center" id="4">
+
+                    </ul>
                 </div>
             </div>
-            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                <p></p>
+
+            <div class="row container">
+                <!--On and Off days-->
+                <div class="col" id="offDays">
+                    <ul class="list-group list-group-flush rounded text-secondary" id="ul_offDays">
+                    </ul>
+                </div>
+                <div class="col" id="onDays">
+                    <ul class="list-group list-group-flush rounded text-info" id="ul_onDays">
+                    </ul>
+                </div>
             </div>
         </div>
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+            <table class="table table-bordered table table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Roll</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Total %</th>
+                    </tr>
+                </thead>
+                <tbody id="maketabletotal">
+                    
+                </tbody>
+            </table>
+
+        </div>
+    </div>
 
 
-        <nav class="navbar sticky-bottom navbar-dark bg-light text-center">
-            <p class="text-center">
-                This site is dynamically load.Maybe a little bit slow but loading is in realtime.
-            </p>
-        </nav>
+    <nav class="navbar sticky-bottom navbar-dark bg-light text-center">
+        <p class="text-center">
+            This site is dynamically load.Maybe a little bit slow but this loads just in realtime!
+        </p>
+    </nav>
 
-        <script src="req/final.js"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <script src="req/final.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
 
-    </body>
+</body>
 
-    </html>
+</html>

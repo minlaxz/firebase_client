@@ -48,24 +48,57 @@ function createAttributes(items_object) {
         globalDataHolder[i - 1] = items_object.val()[rollKeys[i - 1]]
         document.getElementsByTagName("button")[i].setAttribute("onClick", "clickedID(this.id,this.firstChild.nodeValue)");
         document.getElementsByTagName("button")[i].setAttribute("id", rollKeys[i - 1]);
-    } //console.log(data_objects_holder) ////CHECK
-    //console.log(globalOnDayHolder)         ////CHECK
 
-    var templooper = 0;
-    for (i = 0; i < globalOnDayHolder.length; i += 5) {
-        if (globalOnDayHolder[i + 4] !== undefined) {
-            var temp = globalOnDayHolder[i] + '-' + globalOnDayHolder[i + 4]
-            //create_on_days(temp, templooper)
-            ////CHECK console.log(temp)
-            ////CHECK console.log('templooper - '+templooper)
-            ////CHECK console.log(globalOnDayHolder[i], globalOnDayHolder[i + 4])
-            templooper++
-        } else {
-            ////CHECK console.log('templooper - ' + templooper)
-            ////CEHCK console.log(globalOnDayHolder[i])
-            //create_on_days(globalOnDayHolder[i], templooper)
-        } // Deprecated
+
     }
+    globalDataHolder.forEach(fill_this);
+     //console.log(data_objects_holder) ////CHECK
+    //console.log(globalOnDayHolder)         ////CHECK
+}
+
+function fill_this(obj){
+    var tbody = document.getElementById('maketabletotal');
+    var tr = document.createElement('tr');
+
+    var td = document.createElement('td');
+    var td2 = document.createElement('td');
+    var td3 = document.createElement('td');
+    var td4 = document.createElement('td');
+
+    var linkText = document.createTextNode(obj.name);
+    var linkText2 = document.createTextNode(obj.roll);
+    var linkText3 = document.createTextNode(obj.phone);
+    var calculated = calculate(obj.attendance.counter)
+    var linkText4 = document.createTextNode(calculated);
+
+
+    td.appendChild(linkText)
+    td2.appendChild(linkText2)
+    td3.appendChild(linkText3)
+    td4.appendChild(linkText4)
+
+    if(calculated<75){
+        td.className += 'text-danger font-weight-bolder'
+        td2.className += 'text-danger font-weight-bolder'
+        td3.className += 'text-danger font-weight-bolder'
+        td4.className += 'text-danger font-weight-bolder'
+    }else{
+        td.className += 'text-success font-weight-bold'
+        td2.className += 'text-success font-weight-bold'
+        td3.className += 'text-success font-weight-bold'
+        td4.className += 'text-success font-weight-bold'
+    }
+
+    tr.appendChild(td)
+    tr.appendChild(td2)
+    tr.appendChild(td3)
+    tr.appendChild(td4)
+
+    tbody.appendChild(tr)
+}
+
+function calculate(arg) {
+    return (arg/40)*100
 }
 
 function createButtonAndList(item_object) {
@@ -161,7 +194,6 @@ createtable(present_indexes)
 function clickedID(id, name) {
     document.getElementById('table').hidden = false;
     document.getElementById('close').hidden = false;
-
 
     console.log(id)     ////CHECK print roll number
     var clickedData = globalDataHolder[rollKeys.indexOf(id)].attendance[monthNames[monthx]]
