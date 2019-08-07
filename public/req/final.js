@@ -69,7 +69,7 @@ function fill_this(obj){
     var linkText2 = document.createTextNode(obj.roll);
     var linkText3 = document.createTextNode(obj.phone);
     var calculated = calculate(obj.attendance.counter)
-    var linkText4 = document.createTextNode(calculated);
+    var linkText4 = document.createTextNode(calculated+" -- "+obj.attendance.counter+"/40");
 
 
     td.appendChild(linkText)
@@ -78,15 +78,15 @@ function fill_this(obj){
     td4.appendChild(linkText4)
 
     if(calculated<75){
-        td.className += 'text-danger font-weight-bolder'
-        td2.className += 'text-danger font-weight-bolder'
-        td3.className += 'text-danger font-weight-bolder'
-        td4.className += 'text-danger font-weight-bolder'
+        td.className += 'animated infinite pulse slow delay-2s text-danger font-weight-bolder'
+        td2.className += 'animated rollIn fast delay-1s text-danger font-weight-bolder'
+        td3.className += 'animated rollIn fast delay-1s text-danger font-weight-bolder'
+        td4.className += 'animated rollIn fast delay-1s text-danger font-weight-bolder'
     }else{
-        td.className += 'text-success font-weight-bold'
-        td2.className += 'text-success font-weight-bold'
-        td3.className += 'text-success font-weight-bold'
-        td4.className += 'text-success font-weight-bold'
+        td.className += 'animated rollIn fast delay-1s text-success font-weight-bold'
+        td2.className += 'animated rollIn fast delay-1s text-success font-weight-bold'
+        td3.className += 'animated rollIn fast delay-1s text-success font-weight-bold'
+        td4.className += 'animated rollIn fast delay-1s text-success font-weight-bold'
     }
 
     tr.appendChild(td)
