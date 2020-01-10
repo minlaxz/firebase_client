@@ -200,7 +200,7 @@ function createtable(arg) {
 
 function make_modal_show(username) {
   modal_table_header.className += 'text-center text-warning';
-  modal_table_header.textContent = username + ' for ' + monthNames[monthx]  + ' Attendance.'// << month
+  modal_table_header.textContent = username + ' for ' + monthNames[monthx] + ' Attendance.'// << month
   modal.style.display = "block";
   var span = document.getElementsByClassName("close")[0];
   span.onclick = function () {
