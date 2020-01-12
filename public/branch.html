@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,12 +61,15 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-    
+
     <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-app.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-database.js"></script>
+
+    <link rel="stylesheet" href="dist/treeview.min.css" />
+    <script type="text/javascript" src="dist/treeview.min.js"></script>
 
     <script src='req/db.js'></script>
 </head>
@@ -153,6 +157,9 @@
                     <div id="modal_table_header"></div>
                     <div id="modal_table_data">
                         <table class="table table-striped" id="table2" hidden>
+                            <div id="tree"></div>
+                            <button id="expandAll">Expand All</button>
+                            <button id="collapseAll">Collapse All</button>
                             <!-- <thead class="thead">
                                     <tr>
                                         <th scope="col"><b>AM</b></th>
