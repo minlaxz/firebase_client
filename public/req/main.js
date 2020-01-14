@@ -176,28 +176,39 @@ function refreshThis() {
   location.reload();
 }
 
+var size;
 var data;
-var tree = [];
-
+var dataBack;
 function greatTree(id) {
 
-  var childOne = new Array();
-  var childTwo = new Array();
-  var childThree = new Array();
+  var tree = [];
+  var childOne = [];
+  var childTwo = [];
+  var childThree = [];
+  Object.size = function (obj) {
+    var size = 0, key;
+    for (key in obj) {
+      if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+  };
 
   var clickedData = globalDataHolder[rollKeys.indexOf(id)]
+  // Get the size of an object
+  size = Object.size(clickedData.attendance)-1; //-1 for counter varaiable
+
   var name = clickedData.name
   data = clickedData.attendance[monthNames[monthx]]
-  console.log(data)
+  dataBack = clickedData.attendance[monthNames[monthx+1]]
 
   for (i = 0; i < Object.keys(data).length; i++) {
     for (j = 1; j < Object.values(data)[i].length; j++) {
-      if(Object.values(data)[i][j] === undefined){
+      if (Object.values(data)[i][j] === undefined) {
         childThree.push({ 'name': j + ' -- No Record' })
-      }else{
+      } else {
         childThree.push({ 'name': j + ' -- ' + Object.values(data)[i][j] })
       }
-      
+
     }
     childTwo.push({ 'name': Object.keys(data)[i], 'children': childThree })
     childThree = [];
@@ -209,7 +220,7 @@ function greatTree(id) {
 
   var t = new TreeView(tree, 'tree');
   //childOne = [];
-
+  //t.expandAll();
   var expandAll = document.getElementById('expandAll');
   var collapseAll = document.getElementById('collapseAll');
   expandAll.onclick = function () { t.expandAll(); };
