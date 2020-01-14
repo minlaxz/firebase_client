@@ -1,50 +1,38 @@
 //foo_ base64('RGV2ZWxvcGVkIGJ5IE1pbiBMYXR0') _bar//
 var query = firebase.database().ref("project/student").orderByKey();
-
 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
-
 const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Tursday", "Friday", "Saturday"]
+
 
 var d = new Date();                         //object
 var yearx = d.getFullYear();                // 2019
 var monthx = d.getMonth();                  //5 -> June
-
-var i, j;                                    ////global loopers
+var i, j;                                  ////global loopers
 var globalDataHolder = [];                  ////global data holder
-var globalOnDayHolder = [];
-var globalOnDayHolder_sliced = [];
-var globalOffDayHolder = [];
-
 var rollKeys = [];
-
 var present_indexes = [];
 var txt = new String;
 
 var ulNames = document.getElementById('ul_names');
 var ulButtons = document.getElementById("ul_buttons");
 
-//var ulOffDays = document.getElementById("ul_offDays");
-//var ulOnDays = document.getElementById("ul_onDays");
-
 var modal_table_data = document.getElementById("modal_table_data");
 var modal_table_header = document.getElementById("modal_table_header");
 var modal = document.getElementById("myModal");
 var loader = document.getElementById('loader');
-var flag;
 
 // PART ONE
 // Database is initiated from here.
 query.once("value").then(createAttributes);
-
 function createAttributes(obj) {
-  rollKeys = Object.keys(obj.val())
+  rollKeys = Object.keys(obj.val());
   console.log(rollKeys);                      /*LOG roll numbers*/
-  console.log("total user: " + rollKeys.length)
+  console.log("total user: " + rollKeys.length);
   obj.forEach(createButtonAndList);
   for (i = 1; i <= rollKeys.length; i++) {
-    globalDataHolder[i - 1] = obj.val()[rollKeys[i - 1]]
+    globalDataHolder[i - 1] = obj.val()[rollKeys[i - 1]];
     document.getElementsByTagName("button")[i].setAttribute("onClick", "clickedID(this.id,this.firstChild.nodeValue)");
     document.getElementsByTagName("button")[i].setAttribute("id", rollKeys[i - 1]);
   }
@@ -64,7 +52,7 @@ function createButtonAndList(item_object) {
   var li = document.createElement('li');
   li.className += "list-group-item btn-outline-warning";
   var linkText = document.createTextNode(item_object.key);
-  li.style.margin = "5px 0px"
+  li.style.margin = "5px 0px";
   li.appendChild(linkText);
   ulNames.appendChild(li);
 }
@@ -81,14 +69,13 @@ function createButtonAndListForTotal(obj) {
   var linkText = document.createTextNode(obj.name);
   var linkText2 = document.createTextNode(obj.roll);
   var linkText3 = document.createTextNode(obj.phone);
-  var calculated = calculate(obj.attendance.counter)
+  var calculated = calculate(obj.attendance.counter);
   var linkText4 = document.createTextNode(calculated + " -- " + obj.attendance.counter + "/40");
 
-
-  td.appendChild(linkText)
-  td2.appendChild(linkText2)
-  td3.appendChild(linkText3)
-  td4.appendChild(linkText4)
+  td.appendChild(linkText);
+  td2.appendChild(linkText2);
+  td3.appendChild(linkText3);
+  td4.appendChild(linkText4);
 
   if (calculated < 75) {
     td.className += 'animated infinite pulse slow delay-2s text-danger font-weight-bolder'
@@ -102,22 +89,22 @@ function createButtonAndListForTotal(obj) {
     td4.className += 'animated rollIn fast delay-1s text-success font-weight-bold'
   }
 
-  tr.appendChild(td)
-  tr.appendChild(td2)
-  tr.appendChild(td3)
-  tr.appendChild(td4)
+  tr.appendChild(td);
+  tr.appendChild(td2);
+  tr.appendChild(td3);
+  tr.appendChild(td4);
 
-  tbody.appendChild(tr)
+  tbody.appendChild(tr);
 }
 
 function calculate(arg) {
   return (arg / 40) * 100
 }
 
-checkDatabase()
+checkDatabase();
 
 function checkDatabase() {
-  var loopskip = 0
+  var loopskip = 0;
 
   query.on("value", function (snap) {
     if (loopskip > 0) {
@@ -148,14 +135,15 @@ function clickedID(id, name) {
   document.getElementById('table2').hidden = false;
   document.getElementById('close').hidden = false;
 
-  console.log(id)                                 ////CHECK print roll number
+  //console.log(id)                                 ////CHECK print roll number
 
-  var clickedData = globalDataHolder[rollKeys.indexOf(id)].attendance[monthNames[monthx]]  //Extracting
+  //var clickedData = globalDataHolder[rollKeys.indexOf(id)].attendance[monthNames[monthx]]  //Extracting
 
   //console.log(clickedData)                        ////CHECK Object 
   //console.log(typeof(clickedData))
-
-  createtable(Object.values(clickedData))
+  //
+  greatTree(id)
+  //createtable(Object.values(clickedData))
   make_modal_show(name)
 
   document.getElementById('name').innerHTML = name;
@@ -166,47 +154,15 @@ function clickedID(id, name) {
   document.getElementById('userLastScan').innerHTML = globalDataHolder[rollKeys.indexOf(id)].updated_date
 }
 
-
-function createtable(arg) {
-  var tbody = document.createElement('tbody')
-  tbody.setAttribute('id', 'maketable')
-
-  for (i = 0; i < arg.length; i++) {
-    console.log(arg[i])
-    var tr = document.createElement('tr')                //<tr>
-
-    var td = document.createElement('td')                //<td>
-    if (arg[i]['AM'] == undefined) {
-      var linkText = document.createTextNode('No Record')
-    } else {
-      var linkText = document.createTextNode(arg[i]['AM'])
-    }
-    td.appendChild(linkText)                             //<td> TEXT
-
-    var td2 = document.createElement('td')                //<td>
-    if (arg[i]['PM'] == undefined) {
-      var linkText2 = document.createTextNode("No Record")
-    } else {
-      var linkText2 = document.createTextNode(arg[i]['PM'])
-    }
-    td2.appendChild(linkText2)                             //<td> TEXT
-
-    tr.appendChild(td)
-    tr.appendChild(td2)
-    tbody.appendChild(tr)
-  }
-  document.getElementById('table2').appendChild(tbody)
-}
-
 function make_modal_show(username) {
   modal_table_header.className += 'text-center text-warning';
-  modal_table_header.textContent = username + ' for ' + monthNames[monthx]  + ' Attendance.'// << month
+  modal_table_header.textContent = username + ' for ' + monthNames[monthx] + ' Attendance.'// << month
   modal.style.display = "block";
   var span = document.getElementsByClassName("close")[0];
   span.onclick = function () {
     modal.style.display = "none";
-    temp = document.getElementById('maketable')
-    document.getElementById('table2').removeChild(temp)
+    //temp = document.getElementById('maketable')
+    //document.getElementById('table2').removeChild(temp)
   }
 }
 
@@ -220,6 +176,58 @@ function refreshThis() {
   location.reload();
 }
 
+var size;
+var data;
+var dataBack;
+function greatTree(id) {
+
+  var tree = [];
+  var childOne = [];
+  var childTwo = [];
+  var childThree = [];
+  Object.size = function (obj) {
+    var size = 0, key;
+    for (key in obj) {
+      if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+  };
+
+  var clickedData = globalDataHolder[rollKeys.indexOf(id)]
+  // Get the size of an object
+  size = Object.size(clickedData.attendance)-1; //-1 for counter varaiable
+
+  var name = clickedData.name
+  data = clickedData.attendance[monthNames[monthx]]
+  dataBack = clickedData.attendance[monthNames[monthx+1]]
+
+  for (i = 0; i < Object.keys(data).length; i++) {
+    for (j = 1; j < Object.values(data)[i].length; j++) {
+      if (Object.values(data)[i][j] === undefined) {
+        childThree.push({ 'name': j + ' -- No Record' })
+      } else {
+        childThree.push({ 'name': j + ' -- ' + Object.values(data)[i][j] })
+      }
+
+    }
+    childTwo.push({ 'name': Object.keys(data)[i], 'children': childThree })
+    childThree = [];
+  }
+
+  childOne.push({ 'name': monthNames[monthx], 'children': childTwo })
+  //childTwo = [];
+  tree.push({ 'name': name, 'children': childOne })
+
+  var t = new TreeView(tree, 'tree');
+  //childOne = [];
+  //t.expandAll();
+  var expandAll = document.getElementById('expandAll');
+  var collapseAll = document.getElementById('collapseAll');
+  expandAll.onclick = function () { t.expandAll(); };
+  collapseAll.onclick = function () { t.collapseAll(); };
+
+}
+
 window.onload = function () {
   if (!navigator.onLine) {
     console.log('Offline')
@@ -228,7 +236,79 @@ window.onload = function () {
     console.log('Online')
   }
 };
+
+
+// function createtable(arg) {
+//   var tbody = document.createElement('tbody')
+//   tbody.setAttribute('id', 'maketable')
+
+//   for (i = 0; i < arg.length; i++) {
+//     //console.log(arg[i])
+//     var tr = document.createElement('tr')                //<tr>
+
+//     var td = document.createElement('td')                //<td>
+//     if (arg[i]['AM'] == undefined) {
+//       var linkText = document.createTextNode('No Record')
+//     } else {
+//       var linkText = document.createTextNode(arg[i]['AM'])
+//     }
+//     td.appendChild(linkText)                             //<td> TEXT
+
+//     var td2 = document.createElement('td')                //<td>
+//     if (arg[i]['PM'] == undefined) {
+//       var linkText2 = document.createTextNode("No Record")
+//     } else {
+//       var linkText2 = document.createTextNode(arg[i]['PM'])
+//     }
+//     td2.appendChild(linkText2)                             //<td> TEXT
+
+//     tr.appendChild(td)
+//     tr.appendChild(td2)
+//     tbody.appendChild(tr)
+//   }
+//   document.getElementById('table2').appendChild(tbody)
+// }
+
+// var tree1 = [
+//   {
+//     name: 'MEEC-1',
+//     children: [
+//       {
+//         name: 'January',
+//         children: [
+//           {
+//             name: '01',
+//             children: [{
+//               name: ['1 - 9:45  AM', '2 - 10:15 AM']
+//             }
+//             ]
+//           },
+//           {
+//             name: '02',
+//             children: [{
+//               name: ['1 - 9:45  AM', '2 - 10:15 AM']
+//             }]
+//           }
+//         ]
+//       }
+//     ]
+//   }
+// ];
+
+
 /*          TESTED CODE //
+var globalOnDayHolder = [];
+var globalOnDayHolder_sliced = [];
+var globalOffDayHolder = [];
+
+
+// tree[0].name = 'MEEC-2'
+// tree[0].children[0].name = 'February'
+// tree[0].children[0].children[0].name = '01'
+// tree[0].children[0].children[1].name = '02'
+// tree[0].children[0].children[0].children[0].name = ["1 - 9:45  PM" + ' \n ' + "2 - 10:15 AM"]
+// tree[0].children[0].children[1].children[0].name = ["1 - 9:45  PM" + ' \n ' + "2 - 10:15 AM"]
+// tree.push({ 'name': "MEEC-3" })
 
 function daysInMonth(month, year) {
     return new Date(year, month + 1, 0).getDate(); //month+1 is important -> June is 6

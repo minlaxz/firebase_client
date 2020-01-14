@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Attendance</title>
+    <style>
+        /* The Modal (background) */
+        .modalx {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-contentx {
+            /*color:lightgoldenrodyellow;*/
+            color: currentColor;
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-database.js"></script>
+
+    <link rel="stylesheet" href="dist/treeview.min.css" />
+    <script type="text/javascript" src="dist/treeview.min.js"></script>
+
+    <script src='req/db.js'></script>
+</head>
+
+<body>
+    <nav class="navbar sticky-top navbar-light bg-secondary">
+        <h4 class="nav-brand" id='heading_laxz'>Students' Attendance</h4>
+        <pre class="text-center text-secondary" id="rf_detail" hidden>
+            This is returned from server , -
+            database changes was triggered in
+            realtime and need to be refreshed.
+            <button id='rf' class="btn btn-info btn-sm" style="margin: 5px;" hidden>Refresh</button>
+        </pre>
+
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                aria-controls="nav-home" aria-selected="true">Attendance</a>
+            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
+                aria-controls="nav-contact" aria-selected="false">Total</a>
+        </div>
+    </nav>
+
+    <div class="tab-content" id="nav-tabContent">
+        <div class="d-flex justify-content-center" style="margin-top: 1%;">
+            <div class="spinner-grow text-primary" style="width: 2rem; height: 2rem;" role="status" id="loader" hidden>
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row container">
+                <div class="col" id="buttonGroup">
+                    <ul class="list-group list-group-flush" id="ul_buttons">
+                    </ul>
+                </div>
+                <div class="col" id="nameGroup">
+                    <ul class="list-group list-group-flush" id="ul_names">
+                    </ul>
+                </div>
+            </div>
+
+            <button class="btn btn-danger float-right" id="close" onclick="closer()" style="margin: 5px;"
+                hidden>Close</button>
+
+            <table class="table table-striped" id="table1" hidden>
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col"><b>#</b></th>
+                        <th scope="col"><b>NAME</b></th>
+                        <th scope="col"><b>ROLL NO.</b></th>
+                        <th scope="col"><b>DETAIL</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-default">
+                        <th scope="row" id="no"></th>
+                        <td id="name" class="text-danger"></td>
+                        <td id="roll"></td>
+                        <td>
+                            <table class="table table-bordered table-ligth">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Phone</th>
+                                        <th scope="col">Registered Date</th>
+                                        <th scope="col">Last Scan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-default">
+                                        <!--<th scope="row" id="de">Detail</th>-->
+                                        <td id="userPH"></td>
+                                        <td id="userFirstRegister"></td>
+                                        <td id="userLastScan" class="text-info"></td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div id="myModal" class="modalx">
+                <div class="modal-contentx w3-card-4">
+                    <span class="close">&times;</span>
+                    <div id="modal_table_header"></div>
+                    <div id="modal_table_data">
+                        <table class="table table-striped" id="table2" hidden>
+                            <div id="tree"></div>
+                            <button id="expandAll">Expand All</button>
+                            <button id="collapseAll">Collapse All</button>
+                            <!-- <thead class="thead">
+                                    <tr>
+                                        <th scope="col"><b>AM</b></th>
+                                        <th scope="col"><b>PM</b></th>
+                                    </tr>
+                            </thead> -->
+                            <!--<tbody id="maketable">
+                                     Table goes here...
+                            </tbody>-->
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+            <table class="table table-bordered table table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Roll</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Total %</th>
+                    </tr>
+                </thead>
+                <tbody id="maketabletotal">
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+    <nav class="navbar sticky-bottom navbar-dark bg-light text-center" hidden>
+        <p class="text-center">
+            This site is dynamically load.Maybe a little bit slow but this loads just in realtime!
+        </p>
+    </nav>
+
+    <script src="req/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
