@@ -98,7 +98,7 @@ function createButtonAndListForTotal(obj) {
 }
 
 function calculate(arg) {
-  return (arg / 40) * 100
+  return (arg / 120) * 100
 }
 
 checkDatabase();
