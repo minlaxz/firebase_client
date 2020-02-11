@@ -203,7 +203,7 @@ function greatTree(id) {
 
   for (i = 0; i < Object.keys(data).length; i++) {
     for (j = 1; j < Object.values(data)[i].length; j++) {
-      if (Object.values(data)[i][j] === undefined) {
+      if (Object.values(data)[i][j] == undefined) {
         childThree.push({ 'name': j + ' -- No Record' })
       } else {
         childThree.push({ 'name': j + ' -- ' + Object.values(data)[i][j] })
